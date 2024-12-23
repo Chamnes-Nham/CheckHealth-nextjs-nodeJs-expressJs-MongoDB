@@ -1,0 +1,164 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"CreateTipRequest": {
+				"properties": {
+					"category": {
+						"type": "string",
+						"enum": [
+							"low",
+							"normal",
+							"high",
+							"veryHigh",
+							"extremelyHigh"
+						]
+					},
+					"title": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"category",
+					"title",
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IBloodPressureTip": {
+				"properties": {
+					"category": {
+						"type": "string",
+						"enum": [
+							"low",
+							"normal",
+							"high",
+							"veryHigh",
+							"extremelyHigh"
+						]
+					},
+					"title": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"category",
+					"title",
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "bloodPressure-tip",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/tips": {
+			"post": {
+				"operationId": "CreateTip",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Tip created successfully"
+					}
+				},
+				"tags": [
+					"Blood Pressure Tips"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateTipRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetTips",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IBloodPressureTip"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Blood Pressure Tips"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "category",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"low",
+								"normal",
+								"high",
+								"veryHigh",
+								"extremelyHigh"
+							]
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

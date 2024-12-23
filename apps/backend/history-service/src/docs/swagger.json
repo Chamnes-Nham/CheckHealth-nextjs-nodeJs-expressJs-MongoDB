@@ -1,0 +1,450 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IBMI": {
+				"properties": {
+					"weight": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"bmi": {
+						"type": "number",
+						"format": "double"
+					},
+					"category": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"createdDate": {
+						"type": "string"
+					},
+					"createdTime": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"weight",
+					"height",
+					"age",
+					"gender",
+					"username"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_IBMI_": {
+				"properties": {
+					"weight": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"bmi": {
+						"type": "number",
+						"format": "double"
+					},
+					"category": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"createdDate": {
+						"type": "string"
+					},
+					"createdTime": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"BloodPressure": {
+				"properties": {
+					"systolic": {
+						"type": "number",
+						"format": "double"
+					},
+					"diastolic": {
+						"type": "number",
+						"format": "double"
+					},
+					"color": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"note": {
+						"type": "string"
+					},
+					"time": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"systolic",
+					"diastolic",
+					"color",
+					"status",
+					"username",
+					"note",
+					"time",
+					"date"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "history-service",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/health/okay": {
+			"get": {
+				"operationId": "GetHealth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/bmi/latest": {
+			"get": {
+				"operationId": "GetLatestBMI",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/IBMI"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"BMI-service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/bmi": {
+			"post": {
+				"operationId": "CreateBMI",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IBMI"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"BMI-service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_IBMI_"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllBMI",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IBMI"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"BMI-service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/bmi/{id}": {
+			"get": {
+				"operationId": "GetBMIById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/IBMI"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"BMI-service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteBMI",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"BMI-service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/bloodPressure": {
+			"post": {
+				"operationId": "CreateBloodPressure",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BloodPressure"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"blood-pressure service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"diastolic": {
+										"type": "number",
+										"format": "double"
+									},
+									"systolic": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"diastolic",
+									"systolic"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetBloodPressureHistory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/BloodPressure"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"blood-pressure service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/bloodPressure/latest": {
+			"get": {
+				"operationId": "GetLatestBloodPressure",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/BloodPressure"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"blood-pressure service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/v1/bloodPressure/{id}": {
+			"delete": {
+				"operationId": "DeleteBloodPressure",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/BloodPressure"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"blood-pressure service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

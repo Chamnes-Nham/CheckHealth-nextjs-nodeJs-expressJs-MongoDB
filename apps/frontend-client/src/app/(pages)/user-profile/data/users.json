@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "",
+    "gender": "",
+    "age": 0,
+    "weight": 0,
+    "height": 0,
+    "profilePicture": ""
+  },
+  {
+    "id": 2,
+    "name": "ChamChamnes",
+    "gender": "ប្រុស",
+    "age": 20,
+    "weight": 65,
+    "height": 1.7,
+    "profilePicture": "/profile-users/profile.png"
+  },
+  {
+    "id": 3,
+    "name": "VannBonath",
+    "gender": "ប្រុស",
+    "age": 24,
+    "weight": 78,
+    "height": 1.7,
+    "profilePicture": "/profile-users/profile.png"
+  },
+  {
+    "id": 4,
+    "name": "SreyPoreak",
+    "gender": "ស្រី",
+    "age": 20,
+    "weight": 68,
+    "height": 1.7,
+    "profilePicture": "/profile-users/profile.png"
+  }
+]

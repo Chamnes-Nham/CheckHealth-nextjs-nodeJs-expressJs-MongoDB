@@ -1,0 +1,570 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"DeliveryMediumType": {
+				"type": "string",
+				"enum": [
+					"EMAIL",
+					"SMS"
+				]
+			},
+			"CodeDeliveryDetailsType": {
+				"description": "<p>The delivery details for an email or SMS message that Amazon Cognito sent for authentication or\n            verification.</p>",
+				"properties": {
+					"Destination": {
+						"type": "string",
+						"description": "<p>The email address or phone number destination where Amazon Cognito sent the code.</p>"
+					},
+					"DeliveryMedium": {
+						"$ref": "#/components/schemas/DeliveryMediumType",
+						"description": "<p>The method that Amazon Cognito used to send the code.</p>"
+					},
+					"AttributeName": {
+						"type": "string",
+						"description": "<p>The name of the attribute that Amazon Cognito verifies with the code.</p>"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResponseMetadata": {
+				"properties": {
+					"httpStatusCode": {
+						"type": "number",
+						"format": "double",
+						"description": "The status code of the last HTTP response received for this operation."
+					},
+					"requestId": {
+						"type": "string",
+						"description": "A unique identifier for the last request sent for this operation. Often\nrequested by AWS service teams to aid in debugging."
+					},
+					"extendedRequestId": {
+						"type": "string",
+						"description": "A secondary identifier for the last request sent. Used for debugging."
+					},
+					"cfId": {
+						"type": "string",
+						"description": "A tertiary identifier for the last request sent. Used for debugging."
+					},
+					"attempts": {
+						"type": "number",
+						"format": "double",
+						"description": "The number of times this operation was attempted."
+					},
+					"totalRetryDelay": {
+						"type": "number",
+						"format": "double",
+						"description": "The total amount of time (in milliseconds) that was spent waiting between\nretry attempts."
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignUpCommandOutput": {
+				"properties": {
+					"UserConfirmed": {
+						"type": "boolean",
+						"description": "<p>A response from the server indicating that a user registration has been\n            confirmed.</p>"
+					},
+					"CodeDeliveryDetails": {
+						"$ref": "#/components/schemas/CodeDeliveryDetailsType",
+						"description": "<p>The code delivery details returned by the server response to the user registration\n            request.</p>"
+					},
+					"UserSub": {
+						"type": "string",
+						"description": "<p>The 128-bit ID of the authenticated user. This isn't the same as\n            <code>username</code>.</p>"
+					},
+					"$metadata": {
+						"$ref": "#/components/schemas/ResponseMetadata",
+						"description": "Metadata pertaining to this request."
+					}
+				},
+				"required": [
+					"$metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignUp": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ConfirmSignUpCommandOutput": {
+				"properties": {
+					"$metadata": {
+						"$ref": "#/components/schemas/ResponseMetadata",
+						"description": "Metadata pertaining to this request."
+					}
+				},
+				"required": [
+					"$metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Verifications": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"verifyCode": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"verifyCode"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResendConfirmationCodeCommandOutput": {
+				"properties": {
+					"CodeDeliveryDetails": {
+						"$ref": "#/components/schemas/CodeDeliveryDetailsType",
+						"description": "<p>The code delivery details returned by the server in response to the request to resend\n            the confirmation code.</p>"
+					},
+					"$metadata": {
+						"$ref": "#/components/schemas/ResponseMetadata",
+						"description": "Metadata pertaining to this request."
+					}
+				},
+				"required": [
+					"$metadata"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignIn": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "auth-service",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/auth/health": {
+			"get": {
+				"operationId": "GetHealth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/signup": {
+			"post": {
+				"operationId": "SignUp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												},
+												"response": {
+													"$ref": "#/components/schemas/SignUpCommandOutput"
+												}
+											},
+											"required": [
+												"message",
+												"response"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"response": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignUp"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/verifications": {
+			"post": {
+				"operationId": "Verifications",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"error": {},
+												"response": {
+													"$ref": "#/components/schemas/ConfirmSignUpCommandOutput"
+												},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"response",
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"error": {},
+												"response": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"response": {},
+												"error": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"error",
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Verifications"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/resend-verification": {
+			"post": {
+				"operationId": "ResendVerification",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"error": {},
+												"response": {
+													"$ref": "#/components/schemas/ResendConfirmationCodeCommandOutput"
+												}
+											},
+											"required": [
+												"response"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"response": {},
+												"error": {}
+											},
+											"required": [
+												"error"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"username"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/signin": {
+			"post": {
+				"operationId": "SignIn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignIn"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh-token": {
+			"post": {
+				"operationId": "RefreshToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshToken": {
+										"type": "string"
+									},
+									"username": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshToken",
+									"username"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"result": {},
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												},
+												"result": {
+													"properties": {
+														"message": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"message"
+													],
+													"type": "object"
+												}
+											},
+											"required": [
+												"message",
+												"result"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

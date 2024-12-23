@@ -1,0 +1,357 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IDropdownItem": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"href": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"text",
+					"href"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDetailItem": {
+				"properties": {
+					"text": {
+						"type": "string"
+					},
+					"dropdownItem": {
+						"items": {
+							"$ref": "#/components/schemas/IDropdownItem"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"text",
+					"dropdownItem"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDetail": {
+				"properties": {
+					"detailTitle": {
+						"items": {
+							"$ref": "#/components/schemas/IDetailItem"
+						},
+						"type": "array"
+					},
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"detailTitle",
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IHealthTip": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"subtitle": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"details": {
+						"$ref": "#/components/schemas/IDetail"
+					}
+				},
+				"required": [
+					"title",
+					"subtitle",
+					"category"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_IHealthTip_": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"subtitle": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"img": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"details": {
+						"$ref": "#/components/schemas/IDetail"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "tip-service",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/health-tips": {
+			"post": {
+				"operationId": "CreateNewHealthTip",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IHealthTip"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IHealthTip"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllHealthTips",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IHealthTip"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "category",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/health-tips/{healthTipId}": {
+			"get": {
+				"operationId": "GetHealthTipById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IHealthTip"
+										},
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "healthTipId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteHealthTipById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IHealthTip"
+										},
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "healthTipId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/health-tips/updateHealthTipById/{healthTipId}": {
+			"put": {
+				"operationId": "UpdateHealthTipById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/IHealthTip"
+										},
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"message"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "healthTipId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_IHealthTip_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/health/okay": {
+			"get": {
+				"operationId": "GetHealth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

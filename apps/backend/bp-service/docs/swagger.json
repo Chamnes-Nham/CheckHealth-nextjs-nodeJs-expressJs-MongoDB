@@ -1,0 +1,213 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"CreateTipRequest": {
+				"properties": {
+					"categorizedTips": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"guideline": {
+						"items": {
+							"properties": {
+								"content": {
+									"type": "string"
+								},
+								"title": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"content",
+								"title"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"should_do": {
+						"items": {
+							"properties": {
+								"content": {
+									"type": "string"
+								},
+								"title": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"content",
+								"title"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"should_not": {
+						"items": {
+							"properties": {
+								"content": {
+									"type": "string"
+								},
+								"title": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"content",
+								"title"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"categorizedTips",
+					"description",
+					"guideline",
+					"should_do",
+					"should_not"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "bp-service",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/health/okay": {
+			"get": {
+				"operationId": "GetHealth",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/tips": {
+			"post": {
+				"operationId": "CreateTip",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"tip": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Tip created successfully"
+					},
+					"400": {
+						"description": "Invalid request data"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"tags": [
+					"Blood Pressure Tips"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateTipRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetTips",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"tips": {
+											"items": {},
+											"type": "array"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Failed to fetch tips"
+					}
+				},
+				"tags": [
+					"Blood Pressure Tips"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

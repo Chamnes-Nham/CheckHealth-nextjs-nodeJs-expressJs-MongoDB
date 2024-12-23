@@ -1,0 +1,43 @@
+{
+  "name": "tip-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "tsoa:gen": "tsoa spec && tsoa routes",
+    "dev": "yarn tsoa:gen && nodemon src/server.ts",
+    "build": "node build-script.js",
+    "start:pm2-local": "pm2 start ecosystem.config.local.js",
+    "start:local": "node ./build/server.js",
+    "start:pm2-production": "pm2 start ecosystem.config.js",
+    "restart": "pm2 reload ecosystem.config.js",
+    "stop": "pm2 stop all",
+    "swagger": "tsoa spec && tsoa routes"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "esbuild-plugin-copy": "^2.1.1",
+    "multer": "^1.4.5-lts.1",
+    "swagger-ui-express": "^5.0.1",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2",
+    "@types/jest": "^29.5.12",
+    "@types/multer": "^1",
+    "@types/node": "^20.14.9",
+    "@types/swagger-ui-express": "^4.1.6",
+    "body-parser": "^1.20.2",
+    "copy-webpack-plugin": "^12.0.2",
+    "esbuild": "^0.21.5",
+    "jest": "^29.7.0",
+    "mongoose": "^8.4.4",
+    "nodemon": "^3.1.4",
+    "ts-jest": "^29.1.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsoa": "^6.4.0",
+    "typescript": "^5.5.2"
+  }
+}
